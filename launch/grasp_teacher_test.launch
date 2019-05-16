@@ -1,0 +1,17 @@
+<launch>
+
+<!-- Zivid ROS wrapper node -->
+<node name="zivid_ros_wrapper" pkg="zivid_ros_wrapper" type="zivid_ros_wrapper_node" >
+<param name="camera_config/camera_mode" value="2" />
+</node>
+
+<!-- Zivid ROS republisher -->
+<node name="zivid_ros_wrapper_service_republisher_node" pkg="zivid_ros_wrapper"
+type="zivid_ros_wrapper_service_republisher_node" output="screen"/>
+
+<!-- Recorder node -->
+
+<node name="recorder" pkg="hand_eye_calibration"
+type="recorder" args="/pointcloud_republish /robot_state /home/minion/eirik_ws/src/hand_eye_calibration/data/calib080419/img /home/minion/eirik_ws/src/hand_eye_calibration/data/calib080419/pose"/>
+
+</launch>
