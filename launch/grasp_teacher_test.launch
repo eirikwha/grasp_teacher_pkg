@@ -1,17 +1,32 @@
 <launch>
 
-<!-- Zivid ROS wrapper node -->
-<node name="zivid_ros_wrapper" pkg="zivid_ros_wrapper" type="zivid_ros_wrapper_node" >
-<param name="camera_config/camera_mode" value="2" />
-</node>
+    <!-- Zivid ROS wrapper node -->
+    <node name="zivid_ros_wrapper" pkg="zivid_ros_wrapper" type="zivid_ros_wrapper_node">
+    <param name="camera_config/camera_mode" value="2" />
+    </node>
 
-<!-- Zivid ROS republisher -->
-<node name="zivid_ros_wrapper_service_republisher_node" pkg="zivid_ros_wrapper"
-type="zivid_ros_wrapper_service_republisher_node" output="screen"/>
+    <!-- Zivid ROS republisher -->
+    <node name="zivid_ros_wrapper_hdr_republisher_node" pkg="zivid_ros_wrapper" type="zivid_ros_wrapper_hdr_republisher_node" output="screen"/>
 
-<!-- Recorder node -->
+    <!-- Include the launch file for the KUKA Eki node -->
+    <include file="$(find kuka_eki_interface)/launch/kuka_eki_interface.launch">
+        <arg name="robot_ip" value="192.168.250.16"/>
+    </include>
 
-<node name="recorder" pkg="hand_eye_calibration"
-type="recorder" args="/pointcloud_republish /robot_state /home/minion/eirik_ws/src/hand_eye_calibration/data/calib080419/img /home/minion/eirik_ws/src/hand_eye_calibration/data/calib080419/pose"/>
+    <!-- Include the launch file for the pose estimator node -->
+    <include file="$(find pose_estimator)/launch/pose_estimator.launch">
+        <arg name = "pointcloud_topic" value = "hdr_pointcloud"/>
+    </include>
+
+    <!-- Gripper node -->
+
+    <!-- Grasp teacher node -->
+    <node name="grasp_teacher_node" pkg="grasp_teacher"
+    type="grasp_teacher_node.py" output="screen"/>
+
+    <!-- Rviz -->
+    <!-- Visualize with preconfigured rviz node -->
+    	<node name="rviz" pkg="rviz" type="rviz" args="-d $(find pose_estimator)/rviz/newconfig.rviz"/>
+
 
 </launch>
