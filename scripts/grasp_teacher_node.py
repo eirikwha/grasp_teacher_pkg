@@ -57,10 +57,10 @@ class GraspTeacher(object):
 
         #self.t_mat = self.read_cv_yaml(filepath)
 
-        # Pose Estimator node publishes PoseArray
+        # Pose Estimator node subscribes to PoseArray
         self.part_pose_sub = message_filters.Subscriber(part_pose_topic, PoseArray)
 
-        # Subscribes to PoseArray
+        # Subscribes to robot posestamped
         self.robot_pose_sub = message_filters.Subscriber(robot_pose_topic, PoseStamped)
 
         # Message synchronization
@@ -73,14 +73,14 @@ class GraspTeacher(object):
         self.part_pose_it = 0
         self.robot_pose_it = 0
 
-    def read_cv_yaml(self, filepath):
+    def read_calibration_yaml(self, filepath):
         # read a matrix from yaml file (i.e. hand eye calibration)
         fs = cv2.FileStorage(filepath, cv2.FILE_STORAGE_READ)
         fn = fs.getNode("transformationMatrix")
         return np.asarray(fn.mat())
 
     def transformation_to_pose_msg(self):
-        t_mat = self.read_cv_yaml(filepath)
+        t_mat = self.read_calibration_yaml(filepath)
         R = t_mat[0:3,0:3]
         q = sheperd_rot_to_quat(R)
         t = np.asarray(t_mat[0:3,3])
@@ -96,15 +96,15 @@ class GraspTeacher(object):
         part_pose = part_pose_array[0]
         part_pose_it =+ 1
 
-        if (part_pose_it > robot_pose_it):
+        if (part_pose_it > robot_pose_it): #TODO: this has to be callable by service call or keypress!!
             # do something with robot pose
 
             qp = part_pose.pose.orientation
             qr = robot_pose.pose.orientation
 
             pose_grasp = PoseStamped()
-            pose_grasp.pose.orientation = np.dot(np.dot(qr,qx),qp)
-            pose_grasp.pose.position = part_pose.pose.position + robot_pose.pose.poseition + tx
+            pose_grasp.pose.orientation = np.dot(np.dot(qr, qx), qp)
+            pose_grasp.pose.position = part_pose.pose.position + robot_pose.pose.position + tx
             # TODO: transformation matrix to quat and translation
             print (pose_grasp)
             self.pub.publish(pose_grasp)
