@@ -1,0 +1,17 @@
+<launch>
+
+    <!-- Grasp teacher server/client launch file -->
+    <include file="$(find grasp_teacher)/launch/grasp_teacher.launch">
+        <arg name="part_pose_stamped_topic" value="/rand_pose_stamped" />
+        <arg name="robot_pose_stamped_topic" value="/rand_pose_stamped" />
+    </include>
+
+    <!-- Dummy Publisher of pose stamped -->
+    <include file="$(find dummy_publisher)/launch/pose_and_pointcloud2_dummy_publisher.launch">
+        <arg name="pcd_data_folder" value="/home/eirik/Desktop/dummy_test/" />
+        <param name="pointcloud2_topic" value ="/hdr_pointcloud"/>
+        <arg name="pose_stamped_topic" value="/rand_pose_stamped" />
+        <arg name="pose_topic" value ="/rand_pose"/>
+    </include>
+
+</launch>

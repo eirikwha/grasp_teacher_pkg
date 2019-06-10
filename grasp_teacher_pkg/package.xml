@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>grasp_teacher_pkg</name>
+  <version>0.0.1</version>
+  <description>grasp_teacher metapackage</description>
+  <maintainer email="eirikwha@stud.ntnu.no">Eirik Wik Haug</maintainer>
+  <license>BSD 3-Clause</license>
+
+  <author>Eirik Wik Haug</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <export>
+    <metapackage />
+  </export>
+</package>
