@@ -22,9 +22,11 @@ catkin_package()
 
 catkin_install_python(PROGRAMS
         scripts/test.py
-        scripts/grasp_teacher_node.py
+#        scripts/grasp_teacher_node.py
         scripts/pose_recorder_client.py
         scripts/pose_recorder_server.py
+        scripts/pose_recorder_client_new.py
+        scripts/pose_recorder_server_new.py	
         scripts/grasp_teacher_client.py
         scripts/grasp_teacher_server.py
         DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

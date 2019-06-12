@@ -1,0 +1,16 @@
+<launch>	
+	 <!-- Include the launch file for the KUKA Eki node -->
+   	 <include file="$(find kuka_eki_interface)/launch/kuka_eki_interface.launch">
+  	      <arg name="robot_ip" value="192.168.250.16"/>
+   	 </include>
+
+    	<!-- Gripper node -->
+	<node name="gripper_controller" pkg="robotiq_2f_gripper_control" type="Robotiq2FGripperTcpNode.py" args="192.168.250.12" required="true"/>
+	<node name="gripper_simple_controller" pkg="robotiq_2f_gripper_control" type="Robotiq2FGripperSimpleController.py" required="true" launch-prefix="xterm -e"/>
+
+   	<!-- Grasp teacher server/client launch file -->
+    	<include file="$(find grasp_teacher)/launch/pose_recorder.launch">
+     	   	<arg name="robot_pose_topic" value="/robot_state"/>
+    	</include>
+
+</launch>

@@ -12,12 +12,15 @@ add_service_files(
   DIRECTORY srv
   FILES
   GetPoseStamped.srv
+  GetPoseXYZABC.srv
+  GetKrlAxis.srv
 )
 
 generate_messages(
   DEPENDENCIES
   std_msgs
   geometry_msgs
+  kuka_eki_msgs
 )
 
 catkin_package()

@@ -1,0 +1,15 @@
+<launch>
+    <arg name="robot_pose_topic" default="/rand_pose_stamped" />
+
+    <!-- Pose server node -->
+    <node name="pose_recorder_server" pkg="grasp_teacher" type="pose_recorder_server_new.py" output="screen">
+        <param name="server_name" value="robot_pose_recorder"/>
+        <param name="robot_pose_topic" value="$(arg robot_pose_topic)"/>
+    </node>
+
+    <!-- Client -->
+    <node name="grasp_teacher_client" pkg="grasp_teacher" type="pose_recorder_client_new.py" output="screen">
+        <param name="robot_server_name" value="robot_pose_recorder"/>
+    </node>
+
+</launch>
